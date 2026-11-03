@@ -1,0 +1,26 @@
+{
+  "_comment": "Replace app/google-services.json with the file downloaded from your Firebase Console -> Project Settings -> Android App (com.directshare.app).",
+  "project_info": {
+    "project_number": "REPLACE_WITH_PROJECT_NUMBER",
+    "firebase_url": "https://REPLACE_WITH_PROJECT_ID-default-rtdb.firebaseio.com",
+    "project_id": "REPLACE_WITH_PROJECT_ID",
+    "storage_bucket": "REPLACE_WITH_PROJECT_ID.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "REPLACE_WITH_APP_ID",
+        "android_client_info": {
+          "package_name": "com.directshare.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "REPLACE_WITH_FIREBASE_WEB_API_KEY"
+        }
+      ]
+    }
+  ],
+  "configuration_version": "1"
+}

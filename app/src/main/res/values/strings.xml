@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">DirectShare</string>
+    <string name="tagline">Instant Anonymous Global File Transfer</string>
+    <string name="notification_channel_name">DirectShare Active Transfers</string>
+    <string name="notification_channel_desc">Displays live progress for active file transfers</string>
+</resources>

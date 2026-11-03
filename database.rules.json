@@ -1,0 +1,76 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "onlinePeers": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.hasChildren(['uid', 'deviceName', 'status', 'lastSeen']) && newData.child('uid').val() === auth.uid && newData.child('deviceName').isString() && newData.child('deviceName').val().length <= 64"
+      }
+    },
+
+    "pairingCodes": {
+      "$pairingCode": {
+        ".read": "auth != null",
+        ".write": "auth != null && (!data.exists() || data.child('hostUid').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['sessionId', 'hostUid', 'expiresAt']) && newData.child('sessionId').isString() && newData.child('sessionId').val().length <= 64 && newData.child('hostUid').val() === auth.uid"
+      }
+    },
+
+    "signalingSessions": {
+      "$sessionId": {
+        ".read": "auth != null && (data.child('participants/hostUid').val() === auth.uid || data.child('participants/guestUid').val() === auth.uid || !data.child('participants/guestUid').exists())",
+        ".write": "auth != null && (!data.exists() || data.child('participants/hostUid').val() === auth.uid || data.child('participants/guestUid').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['sessionId', 'createdAt', 'expiresAt', 'status', 'participants']) && newData.child('expiresAt').isNumber() && newData.child('expiresAt').val() > now",
+
+        "participants": {
+          "hostUid": {
+            ".validate": "newData.isString() && (!data.exists() ? newData.val() === auth.uid : newData.val() === data.val())"
+          },
+          "hostDeviceName": {
+            ".validate": "newData.isString() && newData.val().length <= 64"
+          },
+          "guestUid": {
+            ".validate": "newData.isString() && (!data.exists() ? newData.val() === auth.uid : newData.val() === data.val())"
+          },
+          "guestDeviceName": {
+            ".validate": "newData.isString() && newData.val().length <= 64"
+          },
+          "authorized": {
+            ".write": "auth != null && root.child('signalingSessions/' + $sessionId + '/participants/hostUid').val() === auth.uid",
+            ".validate": "newData.isBoolean()"
+          }
+        },
+
+        "offer": {
+          ".write": "auth != null && root.child('signalingSessions/' + $sessionId + '/participants/hostUid').val() === auth.uid",
+          ".validate": "newData.hasChildren(['type', 'sdp', 'senderUid', 'timestamp']) && newData.child('type').val() === 'offer' && newData.child('sdp').isString() && newData.child('sdp').val().length <= 16384 && newData.child('senderUid').val() === auth.uid"
+        },
+
+        "answer": {
+          ".write": "auth != null && root.child('signalingSessions/' + $sessionId + '/participants/guestUid').val() === auth.uid",
+          ".validate": "newData.hasChildren(['type', 'sdp', 'senderUid', 'timestamp']) && newData.child('type').val() === 'answer' && newData.child('sdp').isString() && newData.child('sdp').val().length <= 16384 && newData.child('senderUid').val() === auth.uid"
+        },
+
+        "iceCandidates": {
+          "$participantUid": {
+            ".write": "auth != null && auth.uid === $participantUid && (root.child('signalingSessions/' + $sessionId + '/participants/hostUid').val() === auth.uid || root.child('signalingSessions/' + $sessionId + '/participants/guestUid').val() === auth.uid)",
+            "$candidateId": {
+              ".validate": "newData.hasChildren(['sdpMid', 'sdpMLineIndex', 'sdp', 'senderUid']) && newData.child('sdp').isString() && newData.child('sdp').val().length <= 2048 && newData.child('senderUid').val() === auth.uid"
+            }
+          }
+        },
+
+        "status": {
+          ".validate": "newData.isString() && (newData.val() === 'WAITING_FOR_PEER' || newData.val() === 'AWAITING_AUTHORIZATION' || newData.val() === 'AUTHORIZED' || newData.val() === 'NEGOTIATING' || newData.val() === 'CONNECTED' || newData.val() === 'REJECTED' || newData.val() === 'CLOSED' || newData.val() === 'EXPIRED')"
+        },
+
+        "$other": {
+          ".validate": "($other === 'sessionId' || $other === 'pairingCode' || $other === 'createdAt' || $other === 'expiresAt')"
+        }
+      }
+    }
+  }
+}

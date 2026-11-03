@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "665967756352",
+    "firebase_url": "https://d2h-b41b2-default-rtdb.firebaseio.com",
+    "project_id": "d2h-b41b2",
+    "storage_bucket": "d2h-b41b2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665967756352:android:7448f89a1f48f9863e0ba5",
+        "android_client_info": {
+          "package_name": "com.directshare.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjaJDxZRWN3GNSJLS746bQFAjUoUh9lps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

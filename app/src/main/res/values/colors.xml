@@ -1,0 +1,9 @@
+<resources>
+    <color name="deep_black">#FF050507</color>
+    <color name="surface_obsidian">#FF0C0C10</color>
+    <color name="crimson_red">#FFFF1744</color>
+    <color name="scarlet_red">#FFD50000</color>
+    <color name="ruby_glow">#FFFF5252</color>
+    <!-- Legacy alias for backward compatibility -->
+    <color name="deep_navy">#FF050507</color>
+</resources>
